@@ -50,4 +50,4 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/alist-strm:latest
+            ${{ secrets.DOCKER_USERNAME }}/openlist-strm:latest

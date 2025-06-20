@@ -1,15 +1,15 @@
 FROM eclipse-temurin:8u412-b08-jre-jammy
-LABEL title="alist-strm"
-LABEL description="将alist的视频文件生成媒体播放设备可播放的strm文件"
+LABEL title="openlist-strm"
+LABEL description="将openlist的视频文件生成媒体播放设备可播放的strm文件"
 LABEL authors="JackDing"
 RUN apt-get update && apt-get install -y gosu && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
-COPY ./target/application.jar /app/aliststrm.jar
+COPY ./target/application.jar /app/openliststrm.jar
 COPY --chmod=755 entrypoint.sh /entrypoint.sh
 ENV TZ=Asia/Shanghai
-ENV alistServerUrl=""
-ENV alistServerToken=""
-ENV alistScanPath=""
+ENV openlistServerUrl=""
+ENV openlistServerToken=""
+ENV openlistScanPath=""
 ENV isDownSub="0"
 ENV slowMode=""
 ENV encode="1"

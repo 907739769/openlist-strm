@@ -1,13 +1,13 @@
 version: "3"
 services:
   app:
-    container_name: alist-strm
-    image: 'jacksaoding/alist-strm:latest'
+    container_name: openlist-strm
+    image: 'jacksaoding/openlist-strm:latest'
     network_mode: "host"
     environment:
       TZ: Asia/Shanghai
-      alistServerUrl: http://192.168.1.2:5244
-      alistServerToken: xxx
-      alistScanPath: /阿里云分享/电影
+      openlistServerUrl: http://192.168.1.2:5244
+      openlistServerToken: xxx
+      openlistScanPath: /阿里云分享/电影
     volumes:
-      - /volume1/docker/alist-strm/data:/data
+      - /volume1/docker/openlist-strm/data:/data

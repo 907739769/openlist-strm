@@ -1,6 +1,6 @@
-package cn.jackding.aliststrm.util;
+package cn.jackding.openliststrm.util;
 
-import cn.jackding.aliststrm.tg.TgSendMsg;
+import cn.jackding.openliststrm.tg.TgSendMsg;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.TimeUnit;

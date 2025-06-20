@@ -1,8 +1,8 @@
-package cn.jackding.aliststrm;
+package cn.jackding.openliststrm;
 
-import cn.jackding.aliststrm.config.Config;
-import cn.jackding.aliststrm.service.StrmService;
-import cn.jackding.aliststrm.tg.StrmBot;
+import cn.jackding.openliststrm.config.Config;
+import cn.jackding.openliststrm.service.StrmService;
+import cn.jackding.openliststrm.tg.StrmBot;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Level;
@@ -24,7 +24,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 @Slf4j
 @EnableAsync
 @EnableScheduling
-public class AlistStrmApplication implements CommandLineRunner {
+public class OpenlistStrmApplication implements CommandLineRunner {
 
     @Autowired
     private StrmService strmService;
@@ -39,7 +39,7 @@ public class AlistStrmApplication implements CommandLineRunner {
     private String slowMode;
 
     public static void main(String[] args) {
-        SpringApplication.run(AlistStrmApplication.class, args);
+        SpringApplication.run(OpenlistStrmApplication.class, args);
     }
 
     @Override

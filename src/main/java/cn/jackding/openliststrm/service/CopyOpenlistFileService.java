@@ -1,7 +1,7 @@
-package cn.jackding.aliststrm.service;
+package cn.jackding.openliststrm.service;
 
-import cn.jackding.aliststrm.alist.AlistService;
-import cn.jackding.aliststrm.util.Utils;
+import cn.jackding.openliststrm.openlist.OpenlistService;
+import cn.jackding.openliststrm.util.Utils;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Stream;
 
 /**
- * 复制alist文件
+ * 复制openlist文件
  *
  * @Author Jack
  * @Date 2024/6/22 17:53
@@ -25,7 +25,7 @@ import java.util.stream.Stream;
  */
 @Service
 @Slf4j
-public class CopyAlistFileService {
+public class CopyOpenlistFileService {
 
     @Value("${srcDir:}")
     private String srcDir;
@@ -34,7 +34,7 @@ public class CopyAlistFileService {
     private String dstDir;
 
     @Autowired
-    private AlistService alistService;
+    private OpenlistService openlistService;
 
     @Autowired
     private AsynService asynService;
@@ -56,7 +56,7 @@ public class CopyAlistFileService {
         }
         AtomicBoolean flag = new AtomicBoolean(false);
         //查出所有源目录
-        JSONObject object = alistService.getAlist(srcDir + relativePath);
+        JSONObject object = openlistService.getOpenlist(srcDir + relativePath);
         if (object.getJSONObject("data") == null) {
             return;
         }
@@ -80,7 +80,7 @@ public class CopyAlistFileService {
                 return;
             }
 
-            JSONObject jsonObject = alistService.getFile(dstDir + "/" + relativePath + "/" + name);
+            JSONObject jsonObject = openlistService.getFile(dstDir + "/" + relativePath + "/" + name);
             //是目录
             if (contentJson.getBoolean("is_dir")) {
                 //判断目标目录是否存在这个文件夹
@@ -88,7 +88,7 @@ public class CopyAlistFileService {
                 if (200 == jsonObject.getInteger("code")) {
                     syncFiles(srcDir, dstDir, relativePath + "/" + name, taskIdList);
                 } else {
-                    alistService.mkdir(dstDir + "/" + relativePath + "/" + name);
+                    openlistService.mkdir(dstDir + "/" + relativePath + "/" + name);
                     syncFiles(srcDir, dstDir, relativePath + "/" + name, taskIdList);
                 }
             } else {
@@ -99,7 +99,7 @@ public class CopyAlistFileService {
                 //是视频文件才复制 并且不存在
                 if (!(200 == jsonObject.getInteger("code")) && Utils.isVideo(name)) {
                     if (contentJson.getLong("size") > Long.parseLong(minFileSize) * 1024 * 1024) {
-                        JSONObject jsonResponse = alistService.copyAlist(srcDir + "/" + relativePath, dstDir + "/" + relativePath, Collections.singletonList(name));
+                        JSONObject jsonResponse = openlistService.copyOpenlist(srcDir + "/" + relativePath, dstDir + "/" + relativePath, Collections.singletonList(name));
                         if (jsonResponse != null && 200 == jsonResponse.getInteger("code")) {
                             cache.add(dstDir + "/" + relativePath + "/" + name);
                             flag.set(true);
@@ -126,12 +126,12 @@ public class CopyAlistFileService {
         }
         AtomicBoolean flag = new AtomicBoolean(false);
         String taskId = null;
-        JSONObject jsonObject = alistService.getFile(dstDir + "/" + relativePath);
+        JSONObject jsonObject = openlistService.getFile(dstDir + "/" + relativePath);
         if (!(200 == jsonObject.getInteger("code")) && Utils.isVideo(relativePath)) {
-            JSONObject srcJson = alistService.getFile(srcDir + "/" + relativePath);
+            JSONObject srcJson = openlistService.getFile(srcDir + "/" + relativePath);
             if (srcJson.getJSONObject("data").getLong("size") > Long.parseLong(minFileSize) * 1024 * 1024) {
-                alistService.mkdir(dstDir + "/" + relativePath.substring(0, relativePath.lastIndexOf("/")));
-                JSONObject jsonResponse = alistService.copyAlist(srcDir + "/" + relativePath.substring(0, relativePath.lastIndexOf("/")), dstDir + "/" + relativePath.substring(0, relativePath.lastIndexOf("/")), Collections.singletonList(relativePath.substring(relativePath.lastIndexOf("/"))));
+                openlistService.mkdir(dstDir + "/" + relativePath.substring(0, relativePath.lastIndexOf("/")));
+                JSONObject jsonResponse = openlistService.copyOpenlist(srcDir + "/" + relativePath.substring(0, relativePath.lastIndexOf("/")), dstDir + "/" + relativePath.substring(0, relativePath.lastIndexOf("/")), Collections.singletonList(relativePath.substring(relativePath.lastIndexOf("/"))));
                 if (jsonResponse != null && 200 == jsonResponse.getInteger("code")) {
                     cache.add(dstDir + "/" + relativePath);
                     flag.set(true);

@@ -1,7 +1,7 @@
-package cn.jackding.aliststrm;
+package cn.jackding.openliststrm;
 
-import cn.jackding.aliststrm.alist.AlistService;
-import cn.jackding.aliststrm.service.CopyAlistFileService;
+import cn.jackding.openliststrm.openlist.OpenlistService;
+import cn.jackding.openliststrm.service.CopyOpenlistFileService;
 import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,23 +21,23 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ScheduledTask {
 
     @Autowired
-    private CopyAlistFileService copyAlistFileService;
+    private CopyOpenlistFileService copyOpenlistFileService;
 
     @Autowired
-    private AlistService alistService;
+    private OpenlistService openlistService;
 
     /**
      * 每天执行两次
      */
     @Scheduled(cron = "${scheduledCron:0 0 6,18 * * ?}")
     public void syncDaily() {
-        JSONObject jsonObject = alistService.copyUndone();
+        JSONObject jsonObject = openlistService.copyUndone();
         if (jsonObject == null || !(200 == jsonObject.getInteger("code"))) {
-            log.warn("定时任务未执行，因为alist的task/copy/undone服务不可用");
+            log.warn("定时任务未执行，因为openlist的task/copy/undone服务不可用");
             return;
         }
         if (CollectionUtils.isEmpty(jsonObject.getJSONArray("data"))) {
-            copyAlistFileService.syncFiles("", ConcurrentHashMap.newKeySet());
+            copyOpenlistFileService.syncFiles("", ConcurrentHashMap.newKeySet());
         } else {
             log.warn("定时任务未执行，因为还有正在上传的文件");
         }

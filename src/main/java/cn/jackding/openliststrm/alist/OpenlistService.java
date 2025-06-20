@@ -1,6 +1,6 @@
-package cn.jackding.aliststrm.alist;
+package cn.jackding.openliststrm.openlist;
 
-import cn.jackding.aliststrm.util.Utils;
+import cn.jackding.openliststrm.util.Utils;
 import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
@@ -19,12 +19,12 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 @Slf4j
-public class AlistService {
+public class OpenlistService {
 
-    @Value("${alistServerToken}")
+    @Value("${openlistServerToken}")
     private String token;
 
-    @Value("${alistServerUrl}")
+    @Value("${openlistServerUrl}")
     private String url;
 
     @Value("${maxIdleConnections:5}")
@@ -47,7 +47,7 @@ public class AlistService {
         log.info("OkHttpClient initialized successfully.");
     }
 
-    public JSONObject getAlist(String path) {
+    public JSONObject getOpenlist(String path) {
         JSONObject jsonResponse = null;
 
         // 设置请求头
@@ -77,7 +77,7 @@ public class AlistService {
                 .post(RequestBody.create(MediaType.parse("application/json"), requestBodyString))
                 .build();
 
-        log.debug("开始获取alist目录{}", path);
+        log.debug("开始获取openlist目录{}", path);
         for (int i = 0; i < 3; i++) {
             // 发送请求并处理响应
             try (Response response = client.newCall(request).execute()) {
@@ -90,11 +90,11 @@ public class AlistService {
 
                     // 处理响应数据
                     if (200 == jsonResponse.getInteger("code")) {
-                        log.debug("获取alist目录成功{}", path);
+                        log.debug("获取openlist目录成功{}", path);
                         return jsonResponse;
                     } else {
                         log.info("Response Body: " + jsonResponse.toJSONString());
-                        log.warn("获取alist目录{}第{}次失败", path, i + 1);
+                        log.warn("获取openlist目录{}第{}次失败", path, i + 1);
                         Utils.sleep(1);
                     }
 
@@ -104,7 +104,7 @@ public class AlistService {
                     return jsonResponse;
                 }
             } catch (Exception e) {
-                log.error("获取alist目录失败{}", path);
+                log.error("获取openlist目录失败{}", path);
                 log.error("", e);
             }
         }
@@ -141,7 +141,7 @@ public class AlistService {
                 .post(RequestBody.create(MediaType.parse("application/json"), requestBodyString))
                 .build();
 
-        log.debug("开始获取alist文件{}", path);
+        log.debug("开始获取openlist文件{}", path);
 
         // 发送请求并处理响应
         try (Response response = client.newCall(request).execute()) {
@@ -153,7 +153,7 @@ public class AlistService {
                 jsonResponse = JSONObject.parseObject(responseBody);
 
 
-                log.debug("获取alist文件成功{}", path);
+                log.debug("获取openlist文件成功{}", path);
                 return jsonResponse;
 
 
@@ -163,7 +163,7 @@ public class AlistService {
                 return null;
             }
         } catch (Exception e) {
-            log.error("获取alist文件失败{}", path);
+            log.error("获取openlist文件失败{}", path);
             log.error("", e);
         }
 
@@ -171,7 +171,7 @@ public class AlistService {
     }
 
 
-    public JSONObject copyAlist(String srcDir, String dstDir, List<String> names) {
+    public JSONObject copyOpenlist(String srcDir, String dstDir, List<String> names) {
         JSONObject jsonResponse = null;
 
         // 设置请求头
@@ -252,7 +252,7 @@ public class AlistService {
                 .post(RequestBody.create(MediaType.parse("application/json"), requestBodyString))
                 .build();
 
-        log.debug("开始创建alist目录{}", path);
+        log.debug("开始创建openlist目录{}", path);
 
         // 发送请求并处理响应
         try (Response response = client.newCall(request).execute()) {
@@ -264,7 +264,7 @@ public class AlistService {
                 jsonResponse = JSONObject.parseObject(responseBody);
 
 
-                log.debug("创建alist目录完成{}", path);
+                log.debug("创建openlist目录完成{}", path);
                 return jsonResponse;
 
 
@@ -274,7 +274,7 @@ public class AlistService {
                 return null;
             }
         } catch (Exception e) {
-            log.warn("创建alist目录失败{}", path);
+            log.warn("创建openlist目录失败{}", path);
             log.error("", e);
         }
 

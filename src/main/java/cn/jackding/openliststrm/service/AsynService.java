@@ -1,7 +1,7 @@
-package cn.jackding.aliststrm.service;
+package cn.jackding.openliststrm.service;
 
-import cn.jackding.aliststrm.alist.AlistService;
-import cn.jackding.aliststrm.util.Utils;
+import cn.jackding.openliststrm.openlist.OpenlistService;
+import cn.jackding.openliststrm.util.Utils;
 import com.alibaba.fastjson2.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class AsynService {
 
     @Autowired
-    private AlistService alistService;
+    private OpenlistService openlistService;
 
     @Autowired
     private StrmService strmService;
@@ -30,7 +30,7 @@ public class AsynService {
     private final AtomicBoolean isRun = new AtomicBoolean(false);
 
     /**
-     * 判断alist的复制任务是否完成 完成就执行strm任务
+     * 判断openlist的复制任务是否完成 完成就执行strm任务
      *
      * @return
      * @Async
@@ -45,7 +45,7 @@ public class AsynService {
         while (true) {
             boolean allTasksCompleted = true;
             for (String taskId : taskIdList) {
-                JSONObject jsonResponse = alistService.copyInfo(taskId);
+                JSONObject jsonResponse = openlistService.copyInfo(taskId);
                 if (jsonResponse == null) {
                     continue;
                 }
@@ -61,7 +61,7 @@ public class AsynService {
                 if (200 == code && state != 2) {
                     //失败状态了  就重试 状态1是运行中  状态8是等待重试
                     if (state == 7) {
-                        alistService.copyRetry(taskId);
+                        openlistService.copyRetry(taskId);
                     }
                     allTasksCompleted = false;
                 } else if (404 == code || state == 2) {
@@ -82,7 +82,7 @@ public class AsynService {
     public void isCopyDoneOneFile(String path, String taskId) {
         Utils.sleep(30);
         while (true) {
-            JSONObject jsonResponse = alistService.copyInfo(taskId);
+            JSONObject jsonResponse = openlistService.copyInfo(taskId);
             if (jsonResponse == null) {
                 break;
             }
@@ -98,7 +98,7 @@ public class AsynService {
                 break;// 任务完成，退出循环
             } else if (state == 7) {
                 //失败就重试
-                alistService.copyRetry(taskId);
+                openlistService.copyRetry(taskId);
             }
             Utils.sleep(30);//继续检查
         }

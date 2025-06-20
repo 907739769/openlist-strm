@@ -1,6 +1,6 @@
-package cn.jackding.aliststrm.tg;
+package cn.jackding.openliststrm.tg;
 
-import cn.jackding.aliststrm.config.Config;
+import cn.jackding.openliststrm.config.Config;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;

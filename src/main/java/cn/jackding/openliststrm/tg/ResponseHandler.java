@@ -1,8 +1,8 @@
-package cn.jackding.aliststrm.tg;
+package cn.jackding.openliststrm.tg;
 
-import cn.jackding.aliststrm.service.CopyAlistFileService;
-import cn.jackding.aliststrm.service.StrmService;
-import cn.jackding.aliststrm.util.SpringContextUtil;
+import cn.jackding.openliststrm.service.CopyOpenlistFileService;
+import cn.jackding.openliststrm.service.StrmService;
+import cn.jackding.openliststrm.util.SpringContextUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.telegram.abilitybots.api.db.DBContext;
 import org.telegram.abilitybots.api.sender.MessageSender;
@@ -47,8 +47,8 @@ public class ResponseHandler {
                 sender.execute(SendMessage.builder().chatId(chatId).replyToMessageId(messageId).text("请输入正确的参数，例如：/阿里云盘/电影#/115网盘/电影").build());
             }
             sender.execute(SendMessage.builder().chatId(chatId).replyToMessageId(messageId).text("==开始执行指定路径sync任务==").build());
-            CopyAlistFileService copyAlistFileService = (CopyAlistFileService) SpringContextUtil.getBean("copyAlistFileService");
-            copyAlistFileService.syncFiles(strings[0], strings[1], "", ConcurrentHashMap.newKeySet());
+            CopyOpenlistFileService copyOpenlistFileService = (CopyOpenlistFileService) SpringContextUtil.getBean("copyOpenlistFileService");
+            copyOpenlistFileService.syncFiles(strings[0], strings[1], "", ConcurrentHashMap.newKeySet());
             sender.execute(SendMessage.builder().chatId(chatId).replyToMessageId(messageId).text("==执行指定路径sync任务完成==").build());
         } catch (Exception e) {
             log.error("", e);

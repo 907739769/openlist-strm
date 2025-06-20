@@ -1,7 +1,7 @@
-package cn.jackding.aliststrm.service;
+package cn.jackding.openliststrm.service;
 
-import cn.jackding.aliststrm.alist.AlistService;
-import cn.jackding.aliststrm.util.Utils;
+import cn.jackding.openliststrm.openlist.OpenlistService;
+import cn.jackding.openliststrm.util.Utils;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import lombok.extern.slf4j.Slf4j;
@@ -29,10 +29,10 @@ import java.util.stream.Stream;
 public class StrmService {
 
 
-    @Value("${alistScanPath}")
+    @Value("${openlistScanPath}")
     private String path;
 
-    @Value("${alistServerUrl}")
+    @Value("${openlistServerUrl}")
     private String url;
 
     @Value("${slowMode:0}")
@@ -48,7 +48,7 @@ public class StrmService {
     private String isDownSub;
 
     @Autowired
-    private AlistService alistService;
+    private OpenlistService openlistService;
 
     private final Set<String> cache = ConcurrentHashMap.newKeySet();
 
@@ -98,7 +98,7 @@ public class StrmService {
         File outputDirFile = new File(localPath);
         outputDirFile.mkdirs();
 
-        JSONObject jsonObject = alistService.getAlist(path);
+        JSONObject jsonObject = openlistService.getOpenlist(path);
         if (jsonObject != null && 200 == jsonObject.getInteger("code")) {
             JSONArray jsonArray = jsonObject.getJSONObject("data").getJSONArray("content");
             if (jsonArray == null) {
@@ -145,7 +145,7 @@ public class StrmService {
 
                     //字幕文件
                     if ("1".equals(isDownSub) && Utils.isSrt(name)) {
-                        String url = alistService.getFile(path + "/" + name).getJSONObject("data").getString("raw_url");
+                        String url = openlistService.getFile(path + "/" + name).getJSONObject("data").getString("raw_url");
                         String fileName = name.replaceAll("[\\\\/:*?\"<>|]", "");
                         downloadFile(url, localPath + File.separator + (fileName.length() > 255 ? fileName.substring(0, 250) : fileName) + name.substring(name.lastIndexOf(".")));
                         cache.add(path + "/" + name);

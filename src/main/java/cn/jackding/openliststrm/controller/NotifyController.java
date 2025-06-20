@@ -1,7 +1,7 @@
-package cn.jackding.aliststrm.controller;
+package cn.jackding.openliststrm.controller;
 
-import cn.jackding.aliststrm.service.CopyAlistFileService;
-import cn.jackding.aliststrm.util.Utils;
+import cn.jackding.openliststrm.service.CopyOpenlistFileService;
+import cn.jackding.openliststrm.util.Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,11 +28,11 @@ public class NotifyController {
     private String replaceDir;
 
     @Autowired
-    private CopyAlistFileService copyAlistFileService;
+    private CopyOpenlistFileService copyOpenlistFileService;
 
     @PostMapping("/notify")
     public void notifySync() {
-        copyAlistFileService.syncFiles("", ConcurrentHashMap.newKeySet());
+        copyOpenlistFileService.syncFiles("", ConcurrentHashMap.newKeySet());
     }
 
     @PostMapping("/notifyByDir")
@@ -42,12 +42,12 @@ public class NotifyController {
         if (StringUtils.hasText(replaceDir) && StringUtils.hasText((CharSequence) map.get("dir"))) {
             relativePath = map.get("dir").toString().replaceFirst(replaceDir, "");
             if (Utils.isVideo(relativePath)) {
-                copyAlistFileService.syncOneFile(relativePath);
+                copyOpenlistFileService.syncOneFile(relativePath);
             } else {
-                copyAlistFileService.syncFiles(relativePath, ConcurrentHashMap.newKeySet());
+                copyOpenlistFileService.syncFiles(relativePath, ConcurrentHashMap.newKeySet());
             }
         } else {
-            copyAlistFileService.syncFiles(relativePath, ConcurrentHashMap.newKeySet());
+            copyOpenlistFileService.syncFiles(relativePath, ConcurrentHashMap.newKeySet());
         }
     }
 

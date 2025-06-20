@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>cn.jackding</groupId>
-    <artifactId>alist-strm</artifactId>
+    <artifactId>openlist-strm</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>alist-strm</name>
-    <description>alist-strm</description>
+    <name>openlist-strm</name>
+    <description>openlist-strm</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>

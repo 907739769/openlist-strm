@@ -1,4 +1,4 @@
-package cn.jackding.aliststrm.config;
+package cn.jackding.openliststrm.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

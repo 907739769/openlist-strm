@@ -1,9 +1,9 @@
-package cn.jackding.aliststrm.tg;
+package cn.jackding.openliststrm.tg;
 
-import cn.jackding.aliststrm.config.Config;
-import cn.jackding.aliststrm.service.CopyAlistFileService;
-import cn.jackding.aliststrm.service.StrmService;
-import cn.jackding.aliststrm.util.SpringContextUtil;
+import cn.jackding.openliststrm.config.Config;
+import cn.jackding.openliststrm.service.CopyOpenlistFileService;
+import cn.jackding.openliststrm.service.StrmService;
+import cn.jackding.openliststrm.util.SpringContextUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.telegram.abilitybots.api.bot.AbilityBot;
@@ -89,15 +89,15 @@ public class StrmBot extends AbilityBot {
     public Ability sync() {
         return Ability.builder()
                 .name("sync")
-                .info("同步alist")
+                .info("同步openlist")
                 .privacy(CREATOR)
                 .locality(USER)
                 .input(0)
                 .action(ctx -> {
-                    silent.send("==开始执行同步alist任务==", ctx.chatId());
-                    CopyAlistFileService copyAlistFileService = (CopyAlistFileService) SpringContextUtil.getBean("copyAlistFileService");
-                    copyAlistFileService.syncFiles("", ConcurrentHashMap.newKeySet());
-                    silent.send("==执行同步alist任务完成==", ctx.chatId());
+                    silent.send("==开始执行同步openlist任务==", ctx.chatId());
+                    CopyOpenlistFileService copyOpenlistFileService = (CopyOpenlistFileService) SpringContextUtil.getBean("copyOpenlistFileService");
+                    copyOpenlistFileService.syncFiles("", ConcurrentHashMap.newKeySet());
+                    silent.send("==执行同步openlist任务完成==", ctx.chatId());
                 })
                 .build();
     }
@@ -105,7 +105,7 @@ public class StrmBot extends AbilityBot {
     public Ability syncDir() {
         return Ability.builder()
                 .name("syncdir")
-                .info("同步alist指定目录")
+                .info("同步openlist指定目录")
                 .privacy(CREATOR)
                 .locality(USER)
                 .input(0)
@@ -128,10 +128,10 @@ public class StrmBot extends AbilityBot {
                     if (strings.length != 2) {
                         silent.send("请输入正确的参数，例如：/阿里云盘/电影#/115网盘/电影", ctx.chatId());
                     }
-                    silent.send("==开始执行同步alist指定目录任务==", ctx.chatId());
-                    CopyAlistFileService copyAlistFileService = (CopyAlistFileService) SpringContextUtil.getBean("copyAlistFileService");
-                    copyAlistFileService.syncFiles(strings[0], strings[1], "", ConcurrentHashMap.newKeySet());
-                    silent.send("==执行同步alist指定目录任务完成==", ctx.chatId());
+                    silent.send("==开始执行同步openlist指定目录任务==", ctx.chatId());
+                    CopyOpenlistFileService copyOpenlistFileService = (CopyOpenlistFileService) SpringContextUtil.getBean("copyOpenlistFileService");
+                    copyOpenlistFileService.syncFiles(strings[0], strings[1], "", ConcurrentHashMap.newKeySet());
+                    silent.send("==执行同步openlist指定目录任务完成==", ctx.chatId());
                 })
                 .reply((bot, upd) -> responseHandler.replyToSyncDir(getChatId(upd), upd.getMessage().getText(), upd.getMessage().getMessageId()), Flag.REPLY,//回复
                         upd -> upd.getMessage().getReplyToMessage().hasText(), upd -> upd.getMessage().getReplyToMessage().getText().equals("请输入路径(格式：源路径#目标路径)")//回复的是上面的问题
