@@ -30,7 +30,7 @@ public class StrmService {
 
 
     @Value("${openlistScanPath}")
-    private String path;
+    private String paths;
 
     @Value("${openlistServerUrl}")
     private String url;
@@ -53,7 +53,14 @@ public class StrmService {
     private final Set<String> cache = ConcurrentHashMap.newKeySet();
 
     public void strm() {
-        strmDir(path);
+        String[] pathArr = StringUtils.split(paths, ",");
+        strmDir(pathArr);
+    }
+
+    private void strmDir(String[] pathArr) {
+        for (String path : pathArr) {
+            strmDir(path);
+        }
     }
 
     public void strmDir(String path) {
