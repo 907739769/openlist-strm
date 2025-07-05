@@ -18,7 +18,7 @@ openlistServerUrl  openlist地址 如http://192.168.1.2:5244
 openlistServerToken 可在openlist后台获取
 openlistScanPath 需要生成strm文件的目录如http://192.168.1.2:5244/阿里云分享/电影 那就填入/阿里云分享/电影
 可选参数
-slowMode  单线程模式，防止请求网盘太快，默认0，启用填1
+slowMode  单线程模式，防止请求网盘太快，默认启用1，不启用填0
 encode 是否编码strm文件里面的链接  默认1启用  不启用填0
 isDownSub 是否下载目录里面的字幕文件 默认0不下载  下载填1
 runAfterStartup  启动是否立即执行同步任务 默认启用1，启用填0

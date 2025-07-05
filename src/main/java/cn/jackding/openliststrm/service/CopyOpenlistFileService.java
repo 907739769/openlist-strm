@@ -42,7 +42,7 @@ public class CopyOpenlistFileService {
     @Value("${minFileSize:100}")
     private String minFileSize;
 
-    @Value("${slowMode:0}")
+    @Value("${slowMode:1}")
     private String slowMode;
 
     @Value("${strmAfterSync:1}")
