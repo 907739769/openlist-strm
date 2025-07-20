@@ -35,7 +35,7 @@ public class StrmService {
     @Value("${openlistServerUrl}")
     private String url;
 
-    @Value("${slowMode:0}")
+    @Value("${slowMode:1}")
     private String slowMode;
 
     @Value("${output.dir}")
