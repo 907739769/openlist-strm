@@ -1,3 +1,5 @@
+**此版本不再更新新功能，可以关注全新升级的版本[OSR](https://github.com/907739769/OpenList-strm-RuoYi)**
+
 # openlist-strm
  openlist生成可播放strm视频文件
 
